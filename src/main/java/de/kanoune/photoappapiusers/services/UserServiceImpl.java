@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService{
         userVO.setEncryptedPassword("test");
         userRepository.save(userVO);
 
-        return null;
+        UserDTO returnedValue = modelMapper.map(userVO, UserDTO.class);
+
+        return returnedValue;
     }
 }

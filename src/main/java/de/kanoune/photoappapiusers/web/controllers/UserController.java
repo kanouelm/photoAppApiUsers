@@ -2,6 +2,7 @@ package de.kanoune.photoappapiusers.web.controllers;
 
 import de.kanoune.photoappapiusers.model.api.UserDTO;
 import de.kanoune.photoappapiusers.model.rest.request.UserRequest;
+import de.kanoune.photoappapiusers.model.rest.response.UserResponse;
 import de.kanoune.photoappapiusers.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody  UserRequest requestedUserDetails) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody  UserRequest requestedUserDetails) {
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -40,6 +41,8 @@ public class UserController {
         UserDTO userDTO = modelMapper.map(requestedUserDetails, UserDTO.class);
         userService.createUser(userDTO);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        UserResponse returnedValue = modelMapper.map(userDTO, UserResponse.class);
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(returnedValue);
     }
 }
