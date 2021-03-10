@@ -3,6 +3,7 @@ package de.kanoune.photoappapiusers.web.controllers;
 import de.kanoune.photoappapiusers.model.api.UserDTO;
 import de.kanoune.photoappapiusers.model.rest.request.UserRequest;
 import de.kanoune.photoappapiusers.model.rest.response.UserResponse;
+import de.kanoune.photoappapiusers.model.rest.response.UserResponseModel;
 import de.kanoune.photoappapiusers.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -48,5 +49,14 @@ public class UserController {
         UserResponse returnedValue = modelMapper.map(userDTO, UserResponse.class);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(returnedValue);
+    }
+
+    @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable ("userId") String userId) {
+
+        UserDTO userDTO = userService.getUserDetailsByUserId(userId);
+        UserResponseModel returnedValue = new ModelMapper().map(userDTO, UserResponseModel.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnedValue);
     }
 }

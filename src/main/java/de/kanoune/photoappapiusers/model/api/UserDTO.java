@@ -1,9 +1,11 @@
 package de.kanoune.photoappapiusers.model.api;
 
 
+import de.kanoune.photoappapiusers.model.rest.response.AlbumResponse;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class UserDTO implements Serializable {
@@ -14,5 +16,6 @@ public class UserDTO implements Serializable {
     private String password;
     private String encryptedPassword;
     private String email;
+    private List<AlbumResponse> albumResponseList;
 
 }
