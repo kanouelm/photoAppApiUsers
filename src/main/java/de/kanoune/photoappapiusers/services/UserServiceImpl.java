@@ -5,6 +5,8 @@ import de.kanoune.photoappapiusers.model.entities.UserVO;
 import de.kanoune.photoappapiusers.model.feignClient.AlbumsServiceClient;
 import de.kanoune.photoappapiusers.model.rest.response.AlbumResponse;
 import de.kanoune.photoappapiusers.repositories.UserRepository;
+import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
@@ -90,7 +94,14 @@ public class UserServiceImpl implements UserService{
 
         List<AlbumResponse> albumsList = albumsListResponse.getBody();
         */
-        List<AlbumResponse> albumsList = albumsServiceClient.getAlbums(userId);
+        List<AlbumResponse> albumsList = null;
+        try {
+             albumsList = albumsServiceClient.getAlbums(userId);
+        }
+        catch (FeignException ex) {
+            log.error(ex.getLocalizedMessage());
+        }
+
         userDto.setAlbumResponseList(albumsList);
 
         return userDto;
