@@ -3,7 +3,6 @@ package de.kanoune.photoappapiusers.web.controllers;
 import de.kanoune.photoappapiusers.model.api.UserDTO;
 import de.kanoune.photoappapiusers.model.rest.request.UserRequest;
 import de.kanoune.photoappapiusers.model.rest.response.UserResponse;
-import de.kanoune.photoappapiusers.model.rest.response.UserResponseModel;
 import de.kanoune.photoappapiusers.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -12,8 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,10 +49,10 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<UserResponseModel> getUser(@PathVariable ("userId") String userId) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable ("userId") String userId) {
 
         UserDTO userDTO = userService.getUserDetailsByUserId(userId);
-        UserResponseModel returnedValue = new ModelMapper().map(userDTO, UserResponseModel.class);
+        UserResponse returnedValue = new ModelMapper().map(userDTO, UserResponse.class);
 
         return ResponseEntity.status(HttpStatus.OK).body(returnedValue);
     }
