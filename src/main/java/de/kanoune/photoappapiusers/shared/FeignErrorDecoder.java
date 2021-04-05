@@ -35,6 +35,8 @@ public class FeignErrorDecoder implements ErrorDecoder {
             default:
                 return new Exception(response.reason());
         }
+
+
         return null;
     }
 }

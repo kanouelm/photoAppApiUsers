@@ -15,9 +15,10 @@ import java.util.List;
 
 
 @FeignClient(name="albums-ws", fallbackFactory = AlbumsFallbackFactory.class)
+//@FeignClient(name="albums-ws")
 public interface AlbumsServiceClient {
 
-    @GetMapping("/users/{id}/albumss")
+    @GetMapping("/users/{id}/albums")
     List<AlbumResponse> getAlbums(@PathVariable String id);
 }
 
@@ -52,4 +53,6 @@ class AlbumsServiceClientFallback implements AlbumsServiceClient {
         return new ArrayList<>();
     }
 }
+
+
 

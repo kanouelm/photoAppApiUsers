@@ -5,7 +5,6 @@ import de.kanoune.photoappapiusers.model.entities.UserVO;
 import de.kanoune.photoappapiusers.model.feignClient.AlbumsServiceClient;
 import de.kanoune.photoappapiusers.model.rest.response.AlbumResponse;
 import de.kanoune.photoappapiusers.repositories.UserRepository;
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -94,13 +93,10 @@ public class UserServiceImpl implements UserService{
 
         List<AlbumResponse> albumsList = albumsListResponse.getBody();
         */
-        //List<AlbumResponse> albumsList = null;
-        //try {
+       log.info("Before calling albums Microservice");
         List<AlbumResponse> albumsList = albumsServiceClient.getAlbums(userId);
-        //}
-        //catch (FeignException ex) {
-          //  log.error(ex.getLocalizedMessage());
-        //}
+        log.info("After calling albums Microservice");
+
 
         userDto.setAlbumResponseList(albumsList);
 
